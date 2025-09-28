@@ -1,0 +1,285 @@
+{
+  "info": {
+    "name": "Hotel Booking API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/reviews"
+          }
+        },
+        {
+          "name": "Get Review by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/reviews/:id"
+          }
+        },
+        {
+          "name": "Get All Reviews",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/reviews"
+          }
+        },
+        {
+          "name": "Get Reviews by Hotel ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/reviews/hotel/:hotelId"
+          }
+        },
+        {
+          "name": "Update Review",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/reviews/:id"
+          }
+        },
+        {
+          "name": "Delete Review",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/reviews/:id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Generate QR Image",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/aba/generate-qr-image"
+          }
+        },
+        {
+          "name": "Callback",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/aba/callback"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Hotel Images",
+      "item": [
+        {
+          "name": "Create Hotel Image",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/hotel-images"
+          }
+        },
+        {
+          "name": "Get Hotel Image by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/hotel-images/:id"
+          }
+        },
+        {
+          "name": "Get All Hotel Images",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/hotel-images"
+          }
+        },
+        {
+          "name": "Update Hotel Image",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/hotel-images/:id"
+          }
+        },
+        {
+          "name": "Delete Hotel Image",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/hotel-images/:id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Hotels",
+      "item": [
+        {
+          "name": "Create Hotel",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/hotels"
+          }
+        },
+        {
+          "name": "Get Hotel by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/hotels/:id"
+          }
+        },
+        {
+          "name": "Get All Hotels",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/hotels"
+          }
+        },
+        {
+          "name": "Update Hotel",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/hotels/:id"
+          }
+        },
+        {
+          "name": "Delete Hotel",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/hotels/:id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/bookings/create"
+          }
+        },
+        {
+          "name": "Get All Bookings",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/bookings"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/register"
+          }
+        },
+        {
+          "name": "Verify",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/verify"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rooms",
+      "item": [
+        {
+          "name": "Create Room",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/rooms"
+          }
+        },
+        {
+          "name": "Get Room by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/rooms/:id"
+          }
+        },
+        {
+          "name": "Get All Rooms",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/rooms"
+          }
+        },
+        {
+          "name": "Update Room",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/rooms/:id"
+          }
+        },
+        {
+          "name": "Delete Room",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/rooms/:id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Room Types",
+      "item": [
+        {
+          "name": "Create Room Type",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/room-types"
+          }
+        },
+        {
+          "name": "Get Room Type by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/room-types/:id"
+          }
+        },
+        {
+          "name": "Get All Room Types",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/room-types"
+          }
+        },
+        {
+          "name": "Update Room Type",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/room-types/:id"
+          }
+        },
+        {
+          "name": "Delete Room Type",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/room-types/:id"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://https://api.bakongcity.ciy"
+    }
+  ]
+}
