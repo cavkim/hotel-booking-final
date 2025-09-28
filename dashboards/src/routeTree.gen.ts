@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UserRouteImport } from './routes/user'
 import { Route as SettingRouteImport } from './routes/setting'
 import { Route as RoomRouteImport } from './routes/room'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PaymentRouteImport } from './routes/payment'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as IndexRouteImport } from './routes/index'
@@ -32,9 +34,19 @@ const RoomRoute = RoomRouteImport.update({
   path: '/room',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PaymentRoute = PaymentRouteImport.update({
   id: '/payment',
   path: '/payment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -57,7 +69,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/booking': typeof BookingRoute
   '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
   '/payment': typeof PaymentRoute
+  '/register': typeof RegisterRoute
   '/room': typeof RoomRoute
   '/setting': typeof SettingRoute
   '/user': typeof UserRoute
@@ -66,7 +80,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/booking': typeof BookingRoute
   '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
   '/payment': typeof PaymentRoute
+  '/register': typeof RegisterRoute
   '/room': typeof RoomRoute
   '/setting': typeof SettingRoute
   '/user': typeof UserRoute
@@ -76,7 +92,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/booking': typeof BookingRoute
   '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
   '/payment': typeof PaymentRoute
+  '/register': typeof RegisterRoute
   '/room': typeof RoomRoute
   '/setting': typeof SettingRoute
   '/user': typeof UserRoute
@@ -87,7 +105,9 @@ export interface FileRouteTypes {
     | '/'
     | '/booking'
     | '/dashboard'
+    | '/login'
     | '/payment'
+    | '/register'
     | '/room'
     | '/setting'
     | '/user'
@@ -96,7 +116,9 @@ export interface FileRouteTypes {
     | '/'
     | '/booking'
     | '/dashboard'
+    | '/login'
     | '/payment'
+    | '/register'
     | '/room'
     | '/setting'
     | '/user'
@@ -105,7 +127,9 @@ export interface FileRouteTypes {
     | '/'
     | '/booking'
     | '/dashboard'
+    | '/login'
     | '/payment'
+    | '/register'
     | '/room'
     | '/setting'
     | '/user'
@@ -115,7 +139,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookingRoute: typeof BookingRoute
   DashboardRoute: typeof DashboardRoute
+  LoginRoute: typeof LoginRoute
   PaymentRoute: typeof PaymentRoute
+  RegisterRoute: typeof RegisterRoute
   RoomRoute: typeof RoomRoute
   SettingRoute: typeof SettingRoute
   UserRoute: typeof UserRoute
@@ -144,11 +170,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoomRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/payment': {
       id: '/payment'
       path: '/payment'
       fullPath: '/payment'
       preLoaderRoute: typeof PaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -179,7 +219,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookingRoute: BookingRoute,
   DashboardRoute: DashboardRoute,
+  LoginRoute: LoginRoute,
   PaymentRoute: PaymentRoute,
+  RegisterRoute: RegisterRoute,
   RoomRoute: RoomRoute,
   SettingRoute: SettingRoute,
   UserRoute: UserRoute,
