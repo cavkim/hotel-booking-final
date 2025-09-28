@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import {
   Table,
@@ -11,61 +9,20 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { RoomAction } from "./room-action";
 
-const initialRooms = [
-  {
-    id: "1",
-    roomNumber: "101",
-    roomType: "Deluxe",
-    price: "$150/night",
-    status: "Available",
-  },
-  {
-    id: "2",
-    roomNumber: "102",
-    roomType: "Deluxe",
-    price: "$150/night",
-    status: "Available",
-  },
-  {
-    id: "3",
-    roomNumber: "103",
-    roomType: "Deluxe",
-    price: "$150/night",
-    status: "Booking",
-  },
-  {
-    id: "4",
-    roomNumber: "104",
-    roomType: "Deluxe",
-    price: "$150/night",
-    status: "Available",
-  },
-  {
-    id: "5",
-    roomNumber: "201",
-    roomType: "Suite",
-    price: "$250/night",
-    status: "Occupied",
-  },
-  {
-    id: "6",
-    roomNumber: "202",
-    roomType: "Suite",
-    price: "$250/night",
-    status: "Maintenance",
-  },
-];
+import { ChevronRight, Circle, Edit, Trash } from "lucide-react";
+import { useRooms } from "@/hooks";
 
 function getStatusVariant(status) {
   switch (status) {
-    case "Available":
+    case "AVAILABLE":
       return "default";
-    case "Booking":
+    case "BOOKING":
       return "secondary";
-    case "Occupied":
+    case "OCCUPIED":
       return "destructive";
-    case "Maintenance":
+    case "MAINTENANCE":
       return "outline";
     default:
       return "default";
@@ -74,13 +31,13 @@ function getStatusVariant(status) {
 
 function getStatusColor(status) {
   switch (status) {
-    case "Available":
+    case "AVAILABLE":
       return "bg-green-100 text-green-800 hover:bg-green-100";
-    case "Booking":
+    case "BOOKING":
       return "bg-red-100 text-red-800 hover:bg-red-100";
-    case "Occupied":
+    case "OCCUPIED":
       return "bg-blue-100 text-blue-800 hover:bg-blue-100";
-    case "Maintenance":
+    case "MAINTENANCE":
       return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100";
     default:
       return "bg-gray-100 text-gray-800 hover:bg-gray-100";
@@ -88,30 +45,83 @@ function getStatusColor(status) {
 }
 
 export default function RoomDataTable() {
-  const [rooms, setRooms] = useState(initialRooms);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [isActionOpen, setIsActionOpen] = useState(false);
 
-  const handleEdit = (roomId) => {
-    console.log("Edit room:", roomId);
-    // Add edit functionality here
+  const { data: rooms, isLoading, error, refetch } = useRooms();
+
+  const handleRowClick = (room) => {
+    setSelectedRoom(room);
+    setIsActionOpen(true);
   };
 
-  const handleDelete = (roomId) => {
-    setRooms(rooms.filter((room) => room.id !== roomId));
+  const handleCloseAction = () => {
+    setIsActionOpen(false);
+    setSelectedRoom(null);
   };
 
-  const handleCreate = () => {
-    console.log("Create new room");
-    // Add create functionality here
-  };
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-foreground">Room</h2>
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white" disabled>
+            Create
+          </Button>
+        </div>
+        <div className="flex items-center justify-center py-8">
+          <div className="text-sm text-muted-foreground animate-ping">
+            <Circle />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-foreground">Room</h2>
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white">
+            Create
+          </Button>
+        </div>
+        <div className="flex flex-col items-center justify-center py-8 space-y-2">
+          <div className="text-sm text-red-600">
+            Error loading rooms: {error.message}
+          </div>
+          <Button variant="outline" onClick={() => refetch()}>
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!rooms || rooms.length === 0) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-foreground">Room</h2>
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white">
+            Create
+          </Button>
+        </div>
+        <div className="flex items-center justify-center py-8">
+          <div className="text-sm text-muted-foreground">No rooms found</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-foreground">Room</h2>
-        <Button
-          onClick={handleCreate}
-          className="bg-blue-500 hover:bg-blue-600 text-white"
-        >
+        <Button className="bg-blue-500 hover:bg-blue-600 text-white">
           Create
         </Button>
       </div>
@@ -122,49 +132,53 @@ export default function RoomDataTable() {
             <TableRow>
               <TableHead className="font-semibold">Room Number</TableHead>
               <TableHead className="font-semibold">Room Type</TableHead>
-              <TableHead className="font-semibold">Price</TableHead>
-              <TableHead className="font-semibold">Status</TableHead>
+              <TableHead className="font-semibold">Status</TableHead>{" "}
               <TableHead className="font-semibold">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {rooms.map((room) => (
-              <TableRow key={room.id}>
+              <TableRow
+                key={room.id}
+                className="cursor-pointer hover:bg-muted/50 transition-colors"
+                onClick={() => handleRowClick(room)}
+              >
                 <TableCell className="font-medium">{room.roomNumber}</TableCell>
-                <TableCell>{room.roomType}</TableCell>
-                <TableCell>{room.price}</TableCell>
+                <TableCell>{room.roomTypeName}</TableCell>
                 <TableCell>
                   <Badge
-                    variant="secondary"
+                    variant={getStatusVariant(room.status)}
                     className={getStatusColor(room.status)}
                   >
                     {room.status}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => handleEdit(room.id)}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 text-xs"
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => handleDelete(room.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-xs"
-                    >
-                      Delete
-                    </Button>
-                  </div>
+                  <TableCell>
+                    <div className="flex gap-2 justify-center items-center">
+                      <Button size="sm" className=" text-white px-4 py-1">
+                        <Edit />
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1"
+                      >
+                        <Trash />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
+
+      <RoomAction
+        room={selectedRoom}
+        isOpen={isActionOpen}
+        onClose={handleCloseAction}
+      />
     </div>
   );
 }

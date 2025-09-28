@@ -1,11 +1,25 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Outlet, useLocation } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/modules/components/Sidebar";
 import { AppHeader } from "@/modules/components/Header";
 
-export const Route = createRootRoute({
-  component: () => (
+function RootComponent() {
+  const location = useLocation();
+  const isAuthPage = ["/login", "/register"].includes(location.pathname);
+
+  if (isAuthPage) {
+    return (
+      <>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <Outlet />
+        </div>
+        <TanStackRouterDevtools />
+      </>
+    );
+  }
+
+  return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
@@ -16,5 +30,9 @@ export const Route = createRootRoute({
       </SidebarInset>
       <TanStackRouterDevtools />
     </SidebarProvider>
-  ),
+  );
+}
+
+export const Route = createRootRoute({
+  component: RootComponent,
 });
