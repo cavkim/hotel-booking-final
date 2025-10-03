@@ -8,8 +8,17 @@ export const AuthProvider = ({ children }) => {
 
   // Restore user from localStorage on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    try {
+      const storedUser = localStorage.getItem("user");
+      // Only parse if storedUser exists and is not "undefined" string
+      if (storedUser && storedUser !== "undefined" && storedUser !== "null") {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (error) {
+      console.error("Failed to parse user from localStorage:", error);
+      // Clear invalid data
+      localStorage.removeItem("user");
+    }
     setLoading(false);
   }, []);
 
