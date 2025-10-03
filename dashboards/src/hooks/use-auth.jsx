@@ -1,28 +1,48 @@
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner"; // or react-hot-toast
+import { toast } from "sonner";
 import { useAuth } from "./auth-provider";
+import { api } from "@/config"; // Import api instance
 import { postLogin } from "@/api";
-// ✅ named import
 
 const useLogin = () => {
   const { setUser } = useAuth();
 
   return useMutation({
     mutationFn: postLogin,
-    onSuccess: (data) => {
-      // Save token and user info
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+    onSuccess: (response) => {
+      console.log("Full response:", response);
 
-      // Update context
-      setUser(data.user);
+      const actualData = response.data.data;
 
-      toast.success(`Welcome, ${data.user.name}!`);
-      window.location.href = "/dashboard"; // navigate after login
+      if (!actualData || !actualData.token || !actualData.user) {
+        console.error("Invalid response structure:", response);
+        toast.error("Login failed. Invalid response from server.");
+        return;
+      }
+
+      const { token, refreshToken, user } = actualData;
+
+      localStorage.setItem("authToken", token);
+      if (refreshToken) {
+        localStorage.setItem("refreshToken", refreshToken);
+      }
+      localStorage.setItem("user", JSON.stringify(user));
+
+      setUser(user);
+
+      const userName = user.firstname || user.username || "User";
+      toast.success(`Welcome back, ${userName}!`);
+
+      setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 500);
     },
     onError: (error) => {
-      console.error("Login failed:", error);
-      toast.error("Login failed. Please check your email or password.");
+      console.error("Login error:", error);
+      const message =
+        error?.response?.data?.message ||
+        "Login failed. Please check your credentials.";
+      toast.error(message);
     },
   });
 };
