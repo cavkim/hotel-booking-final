@@ -145,7 +145,7 @@ REACT_APP_ENABLE_API_TESTER=true
 
 ## 🎉 Ready to Use!
 
-Your hotel booking system is now **fully organized** and ready for development:
+Your hotel booking system is now **fully organized** 
 
 - ✅ **Clean project structure**
 - ✅ **Organized API configuration**
